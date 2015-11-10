@@ -35,7 +35,7 @@ while (urlStart != 9):
 	emojiStart = emojiPageStr.find("<h1><span class=\"emoji\">") + 24
 	emojiEnd = emojiPageStr.find("</span>", emojiStart)
 	emoji = emojiPageStr[emojiStart:emojiEnd]
-	print (str(i) + " -> " +  href[1:-1])
+	
 
 	urlStart = pageStr.find("<img src=\"", urlEnd, end) + 10
 	urlEnd = pageStr.find("\"", urlStart, end)
@@ -62,7 +62,7 @@ while (urlStart != 9):
 		   float(avg[1])/float(nPixels),
 		   float(avg[2])/float(nPixels))
 
-	print (avg[0], avg[1], avg[2])
+	print (str(i) + " -> " +  href[1:-1] + "   " + str(int(avg[0])) + "   " + str(int(avg[1])) + "   " + str(int(avg[2])))
 	#imgStats = ImageStat.Stat(img, img.split()[3])	
 
 	line = emoji + " " + str(int(avg[0])) + " " + str(int(avg[1])) + " " + str(int(avg[2])) + " // " + str(i) + " " + href[1:-1] + "\n"

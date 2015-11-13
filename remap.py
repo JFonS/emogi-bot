@@ -2,9 +2,6 @@ f = open("color2emogi.txt","r")
 o = open("color2emogiREMAP.txt", "w")
 color2emoji = []
 
-def remap(n, currMin, currMax, newMin, newMax):
-    return (n - currMin) / (currMax - currMin) * (newMax - newMin) + newMin
-
 def translate(value, leftMin, leftMax, rightMin, rightMax):
     # Figure out how 'wide' each range is
     leftSpan = leftMax - leftMin

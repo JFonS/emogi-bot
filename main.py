@@ -2,6 +2,7 @@ import telebot
 import requests
 import io
 from PIL import Image
+import random
 
 bot = telebot.TeleBot("179522397:AAFN1XumZ2TFfPkVOM14fO44NXMnttA8NFg")
 
@@ -15,11 +16,15 @@ def color_to_emoji(color):
 	emoji = "#"
 	for e in color2emoji:
 		dist = abs(int(color[0]) - int(e[1])) + abs(int(color[1]) - int(e[2])) + abs(int(color[2]) - int(e[3]))
-		if dist < minDist:
+		if dist < minDist or (dist == minDist and random.choice([True, False])):
 			minDist = dist
 			emoji = e[0]
-			print(e[5])
+
 	return emoji
+
+@bot.message_handler(commands=['help', 'start'])
+def help(msg):
+        bot.send_message(msg.chat.id, "I convert images to emoji art. Send a picture to me. It only works on mobile devices")
 
 @bot.message_handler(content_types=['photo'])
 def handle_images(message):
@@ -56,6 +61,9 @@ def handle_images(message):
 		if x+1 == width: y += 1
 		x = int((x+1) % width)
 
+
+	nLines = int(50/nTilesWidth)
+	print ("NLINES " + str(nLines))
 	msg = ""
 	for ty in range(nTilesHeight):
 		for tx in range(nTilesWidth):
@@ -66,7 +74,7 @@ def handle_images(message):
 		
 		print(str(ty) + "  =============")
 
-		if (ty > 0 and ty < 5 and ty % 4 == 0) or (ty >= 5 and ty % 5 == 4):
+		if (ty % nLines == nLines - 1):
 			bot.send_message(message.chat.id, msg)
 			msg = ""
 		else:
@@ -74,9 +82,5 @@ def handle_images(message):
 
 	if msg != "": bot.send_message(message.chat.id, msg)
 
-
-@bot.message_handler(func=lambda message: True)
-def echo_all(message):
-	bot.reply_to(message, message.text)
 
 bot.polling()

@@ -7,7 +7,7 @@ import random
 bot = telebot.TeleBot("179522397:AAFN1XumZ2TFfPkVOM14fO44NXMnttA8NFg")
 
 color2emoji = []
-f = open("color2emogi.txt", "r")
+f = open("color2emogi-sub.txt", "r")
 lines = f.readlines()
 for line in lines: color2emoji.append(line.split(" "))
 
@@ -15,10 +15,15 @@ def color_to_emoji(color):
 	minDist = 9999999999999999
 	emoji = "#"
 	for e in color2emoji:
-		dist = abs(int(color[0]) - int(e[1])) + abs(int(color[1]) - int(e[2])) + abs(int(color[2]) - int(e[3]))
+		dist = 0
+		for suby in range(0,2):
+			for subx in range(0,2):
+				offset = (subx + 2*suby)*3
+				dist += abs(int(color[suby,subx][0]) - int(e[1+offset])) + abs(int(color[suby,subx][1]) - int(e[2+offset])) + abs(int(color[suby,subx][2]) - int(e[3+offset]))
 		if dist < minDist or (dist == minDist and random.choice([True, False])):
 			minDist = dist
-			emoji = e[0]
+			emoji = (e[0], e[15], e[16])
+
 
 	return emoji
 
@@ -38,10 +43,10 @@ def handle_images(message):
 	height  = int(photo.height)
 	print (width, height)
 	
-	nTilesWidth = 10
-	tSize  = width / nTilesWidth
+	nTilesWidth = 14
+	tSize  = width / (nTilesWidth*2)
 	
-	nTilesHeight = int((float(height)/tSize))
+	nTilesHeight = int((float(height)/(tSize*2)))
    
 	pixels = image.getdata()
 	x = int(0)
@@ -65,20 +70,34 @@ def handle_images(message):
 	nLines = int(50/nTilesWidth)
 	print ("NLINES " + str(nLines))
 	msg = ""
-	for ty in range(nTilesHeight):
-		for tx in range(nTilesWidth):
-			color = (tileRGBMeans[tx,ty,0],tileRGBMeans[tx,ty,1],tileRGBMeans[tx,ty,2])
+	dbg_msg = ""
+	ty = 0
+	while ty < nTilesHeight*2:		
+		tx = 0 
+		while tx < nTilesWidth*2:
+			color = {}
+			for suby in range(0,2):
+				for subx in range(0,2):
+					color[subx,suby] = (tileRGBMeans[tx+subx,ty+suby,0],tileRGBMeans[tx+subx,ty+suby,1],tileRGBMeans[tx+subx,ty+suby,2])
+					
 			emoji = color_to_emoji(color)
-			msg += emoji
-			print ("  Mean: " + str(tileRGBMeans[tx,ty,0]) + ", " + str(tileRGBMeans[tx,ty,1]) + ", " + str(tileRGBMeans[tx,ty,2]))
-		
+			msg += emoji[0]
+			dbg_msg += "//" + emoji[1] + ", " + emoji[2] 
+			#print ("  Mean: " + str(tileRGBMeans[tx,ty,0]) + ", " + str(tileRGBMeans[tx,ty,1]) + ", " + str(tileRGBMeans[tx,ty,2]))
+			tx += 2
+
 		print(str(ty) + "  =============")
 
-		if (ty % nLines == nLines - 1):
+		if (ty/2 % nLines == nLines - 1):
+			print(msg)
+			print(dbg_msg)
 			bot.send_message(message.chat.id, msg)
 			msg = ""
+			dbg_msg = ""
 		else:
 			msg += "\r\n"
+			dbg_msg += "NEWLINE\r\n"
+		ty += 2
 
 	if msg != "": bot.send_message(message.chat.id, msg)
 

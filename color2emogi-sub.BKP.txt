@@ -267,6 +267,11 @@
 👫 225 162 71 209 138 106 177 155 99 124 113 113  // 266 man-and-woman-holding-hands
 👬 179 159 106 141 126 123 225 172 65 155 137 118  // 267 two-men-holding-hands
 👭 224 160 70 209 138 106 223 164 85 209 154 150  // 268 two-women-holding-hands
+🏻 246 220 195 246 220 195 246 220 195 246 220 195  // 269 emoji-modifier-fitzpatrick-type-1-2
+🏼 225 194 164 225 194 164 225 194 164 225 194 164  // 270 emoji-modifier-fitzpatrick-type-3
+🏽 198 159 128 198 159 128 198 159 128 198 159 128  // 271 emoji-modifier-fitzpatrick-type-4
+🏾 169 124 93 169 124 93 169 124 93 169 124 93  // 272 emoji-modifier-fitzpatrick-type-5
+🏿 116 99 89 116 99 89 116 99 89 116 99 89  // 273 emoji-modifier-fitzpatrick-type-6
 💪🏻 248 234 219 242 215 190 253 251 249 244 219 194  // 274 flexed-biceps-emoji-modifier-fitzpatrick-type-1-2
 💪🏼 237 220 201 222 191 160 252 251 248 224 195 164  // 275 flexed-biceps-emoji-modifier-fitzpatrick-type-3
 💪🏽 223 205 183 194 165 130 251 249 248 198 167 130  // 276 flexed-biceps-emoji-modifier-fitzpatrick-type-4
@@ -1253,6 +1258,7 @@
 🇧🇶 229 223 196 161 167 189 160 171 198 113 132 174  // 1257 flag-for-caribbean-netherlands
 🇰🇾 213 157 166 102 90 140 123 109 148 128 122 159  // 1258 flag-for-cayman-islands
 🇨🇫 186 176 191 176 174 113 169 167 184 186 183 123  // 1259 flag-for-central-african-republic
+🇪🇦 210 165 130 193 142 102 212 161 104 208 161 117  // 1260 flag-for-ceuta-melilla
 🇹🇩 165 166 151 137 141 126 219 140 116 218 150 127  // 1261 flag-for-chad
 🇨🇱 180 193 217 199 116 113 233 227 227 212 131 124  // 1262 flag-for-chile
 🇨🇳 217 142 137 201 98 108 209 106 117 208 118 128  // 1263 flag-for-china

@@ -43,11 +43,12 @@ def handle_images(message):
 	height  = int(photo.height)
 	print (width, height)
 	
-	nTilesWidth = 14
-	tSize  = width / (nTilesWidth*2)
+	nTilesWidth = 35
+	tSize  = int(width / (nTilesWidth*2))
 	
 	nTilesHeight = int((float(height)/(tSize*2)))
-   
+	
+	print(nTilesWidth, nTilesHeight, tSize)   
 	pixels = image.getdata()
 	x = int(0)
 	y = int(0)
@@ -66,12 +67,8 @@ def handle_images(message):
 		if x+1 == width: y += 1
 		x = int((x+1) % width)
 
-
-	nLines = int(50/nTilesWidth)
-	print ("NLINES " + str(nLines))
-	msg = ""
-	dbg_msg = ""
 	ty = 0
+	finalImage = Image.new("RGB",(width, height), "white")
 	while ty < nTilesHeight*2:		
 		tx = 0 
 		while tx < nTilesWidth*2:
@@ -81,25 +78,16 @@ def handle_images(message):
 					color[subx,suby] = (tileRGBMeans[tx+subx,ty+suby,0],tileRGBMeans[tx+subx,ty+suby,1],tileRGBMeans[tx+subx,ty+suby,2])
 					
 			emoji = color_to_emoji(color)
-			msg += emoji[0]
-			dbg_msg += "//" + emoji[1] + ", " + emoji[2] 
-			#print ("  Mean: " + str(tileRGBMeans[tx,ty,0]) + ", " + str(tileRGBMeans[tx,ty,1]) + ", " + str(tileRGBMeans[tx,ty,2]))
+			emojiImage = Image.open("emojis/" + emoji[1] + ".png")
+			emojiImage = emojiImage.resize((tSize*2,tSize*2), Image.ANTIALIAS)
+
+			finalImage.paste(emojiImage, (tx*tSize, ty*tSize, tx*tSize + tSize*2, ty*tSize + tSize*2), emojiImage)
 			tx += 2
-
-		print(str(ty) + "  =============")
-
-		if (ty/2 % nLines == nLines - 1):
-			print(msg)
-			print(dbg_msg)
-			bot.send_message(message.chat.id, msg)
-			msg = ""
-			dbg_msg = ""
-		else:
-			msg += "\r\n"
-			dbg_msg += "NEWLINE\r\n"
 		ty += 2
 
-	if msg != "": bot.send_message(message.chat.id, msg)
+	finalImage.save("./tmp/img.png")
+	sendImage = open('./tmp/img.png', 'rb')
+	bot.send_photo(message.chat.id, sendImage)
 
 
 bot.polling()

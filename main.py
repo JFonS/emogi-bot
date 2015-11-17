@@ -67,8 +67,10 @@ def handle_images(message):
 		if x+1 == width: y += 1
 		x = int((x+1) % width)
 
+
+	imageEmojiSize = 36
 	ty = 0
-	finalImage = Image.new("RGB",(width, height), "white")
+	finalImage = Image.new("RGB",(nTilesWidth*imageEmojiSize, nTilesHeight*imageEmojiSize), "white")
 	while ty < nTilesHeight*2:		
 		tx = 0 
 		while tx < nTilesWidth*2:
@@ -79,9 +81,9 @@ def handle_images(message):
 					
 			emoji = color_to_emoji(color)
 			emojiImage = Image.open("emojis/" + emoji[1] + ".png")
-			emojiImage = emojiImage.resize((tSize*2,tSize*2), Image.ANTIALIAS)
+			emojiImage = emojiImage.resize((imageEmojiSize,imageEmojiSize), Image.ANTIALIAS)
 
-			finalImage.paste(emojiImage, (tx*tSize, ty*tSize, tx*tSize + tSize*2, ty*tSize + tSize*2), emojiImage)
+			finalImage.paste(emojiImage, (tx*int(imageEmojiSize/2), ty*int(imageEmojiSize/2)), emojiImage)
 			tx += 2
 		ty += 2
 
